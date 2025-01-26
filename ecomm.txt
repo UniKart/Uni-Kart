@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+        #cartModal, #loginModal, #signUpModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .cart-content, .auth-modal {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Navbar -->
+<nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center py-4 px-2">
+                <img src="https://storage.googleapis.com/a1aa/image/2I25lJJk83rLMZhQyIS4h7cVeLI5TrPl2Gs3zOlRxxXqXeIUA.jpg" alt="Company Logo" class="h-8 w-8 mr-2">
+                <span class="font-semibold text-gray-500 text-lg">E-Shop</span>
+            </a>
+
+            <!-- Primary Menu -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="py-2 text-green-500 border-b-2 border-green-500 font-semibold">Home</a>
+                <a href="#" class="py-2 text-gray-500 font-semibold hover:text-green-500 transition">Shop</a>
+                <a href="#" class="py-2 text-gray-500 font-semibold hover:text-green-500 transition">About</a>
+                <a href="#" class="py-2 text-gray-500 font-semibold hover:text-green-500 transition">Contact</a>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="#" id="loginBtn" class="text-gray-500 hover:bg-gray-200 py-2 px-4 rounded transition">Login</a>
+                <a href="#" id="signUpBtn" class="text-white bg-green-500 hover:bg-green-400 py-2 px-4 rounded transition">Sign Up</a>
+                <a href="#" id="cart-icon" class="relative text-gray-500 hover:bg-gray-200 py-2 px-4 rounded transition">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute top-0 right-0 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">0</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden flex items-center mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="hidden mobile-menu md:hidden">
+        <ul>
+            <li><a href="#" class="block text-sm px-4 py-2 text-green-500 bg-gray-200">Home</a></li>
+            <li><a href="#" class="block text-sm px-4 py-2 hover:bg-gray-200">Shop</a></li>
+            <li><a href="#" class="block text-sm px-4 py-2 hover:bg-gray-200">About</a></li>
+            <li><a href="#" class="block text-sm px-4 py-2 hover:bg-gray-200">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="bg-white py-20">
+    <div class="container mx-auto flex flex-col md:flex-row items-center">
+        <div class="flex flex-col w-full lg:w-1/2 p-8">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-800">Welcome to E-Shop</h1>
+            <p class="text-gray-700 text-base mt-4">Discover the best deals on high-quality products. Your one-stop shop for all your needs.</p>
+            <button id="shopNowBtn" class="mt-4 bg-green-500 text-white py-2 px-6 rounded shadow hover:bg-green-400 transition">
+                Shop Now
+            </button>
+        </div>
+        <div class="p-8">
+            <img src="https://storage.googleapis.com/a1aa/image/9hFX1G7TnspEH1Vpq4jZMWOSNCl790ULgEpnjC0gXzK0LPCF.jpg" alt="Hero image" class="rounded-lg shadow-lg">
+        </div>
+    </div>
+</section>
+
+<!-- Products List -->
+<section id="productsSection" class="bg-gray-100 py-10 hidden">
+    <div class="container mx-auto px-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Our Products</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Product Card -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden product-card">
+                <img src="https://via.placeholder.com/200" alt="Product 1" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Product 1</h3>
+                    <p class="text-gray-600">$50.00</p>
+                    <button class="mt-2 block bg-green-500 text-white text-center py-2 rounded hover:bg-green-400 transition add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <!-- Repeat Product Cards -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden product-card">
+                <img src="https://via.placeholder.com/200" alt="Product 2" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Product 2</h3>
+                    <p class="text-gray-600">$70.00</p>
+                    <button class="mt-2 block bg-green-500 text-white text-center py-2 rounded hover:bg-green-400 transition add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="hidden flex">
+    <div class="cart-content">
+        <h2 class="text-xl font-semibold text-gray-800">Your Cart</h2>
+        <div id="cartItems"></div>
+        <button id="checkoutBtn" class="mt-4 bg-blue-500 text-white py-2 px-6 rounded shadow hover:bg-blue-400 transition">
+            Checkout
+        </button>
+        <button id="closeCart" class="mt-2 bg-red-500 text-white py-2 px-6 rounded shadow hover:bg-red-400 transition">
+            Close Cart
+        </button>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="hidden flex">
+    <div class="auth-modal">
+        <h2 class="text-xl font-semibold text-gray-800">Login</h2>
+        <input type="email" placeholder="Email" class="mt-4 w-full p-2 border border-gray-300 rounded">
+        <input type="password" placeholder="Password" class="mt-4 w-full p-2 border border-gray-300 rounded">
+        <button id="loginSubmit" class="mt-4 bg-green-500 text-white py-2 px-6 rounded shadow hover:bg-green-400 transition">
+            Login
+        </button>
+        <button id="closeLogin" class="mt-2 bg-red-500 text-white py-2 px-6 rounded shadow hover:bg-red-400 transition">
+            Close
+        </button>
+    </div>
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="hidden flex">
+    <div class="auth-modal">
+        <h2 class="text-xl font-semibold text-gray-800">Sign Up</h2>
+        <input type="email" placeholder="Email" class="mt-4 w-full p-2 border border-gray-300 rounded">
+        <input type="password" id="signUpPassword" placeholder="Password" class="mt-4 w-full p-2 border border-gray-300 rounded">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" class="mt-4 w-full p-2 border border-gray-300 rounded">
+        <label class="mt-4 inline-flex items-center">
+            <input type="checkbox" id="showPassword" class="form-checkbox">
+            <span class="ml-2">Show Password</span>
+        </label>
+        <button id="signUpSubmit" class="mt-4 bg-green-500 text-white py-2 px-6 rounded shadow hover:bg-green-400 transition">
+            Sign Up
+        </button>
+        <button id="closeSignUp" class="mt-2 bg-red-500 text-white py-2 px-6 rounded shadow hover:bg-red-400 transition">
+            Close
+        </button>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-white py-6">
+    <div class="container mx-auto text-center">
+        <p class="text-gray-600">&copy; 2023 E-Shop. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Cart Management
+    const cartIcon = document.getElementById('cart-icon');
+    const cartModal = document.getElementById('cartModal');
+    const cartItems = document.getElementById('cartItems');
+    const cartCount = document.getElementById('cart-count');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const closeCart = document.getElementById('closeCart');
+    const addToCartBtns = document.querySelectorAll('.add-to-cart');
+    
+    let cart = [];
+
+    // Show Cart
+    cartIcon.addEventListener('click', () => {
+        cartModal.classList.toggle('hidden');
+        updateCart();
+    });
+
+    // Close Cart
+    closeCart.addEventListener('click', () => {
+        cartModal.classList.add('hidden');
+    });
+
+    // Add Product to Cart
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const productName = e.target.previousElementSibling.previousElementSibling.innerText;
+            const productPrice = e.target.previousElementSibling.innerText;
+            addToCart(productName, productPrice);
+        });
+    });
+
+    // Add to Cart Functionality
+    function addToCart(name, price) {
+        const existingProduct = cart.find(item => item.name === name);
+        if (existingProduct) {
+            existingProduct.quantity++;
+        } else {
+            cart.push({ name, price, quantity: 1 });
+        }
+        updateCart();
+    }
+
+    // Update Cart UI
+    function updateCart() {
+        cartItems.innerHTML = '';
+        let totalItems = 0;
+        cart.forEach(item => {
+            totalItems += item.quantity;
+            cartItems.innerHTML += `
+                <div class="flex justify-between py-2">
+                    <span>${item.name} (x${item.quantity})</span>
+                    <span>${item.price}</span>
+                </div>
+            `;
+        });
+        cartCount.innerText = totalItems;
+    }
+
+    // Checkout
+    checkoutBtn.addEventListener('click', () => {
+        alert('Proceeding to checkout!');
+    });
+
+    // Authentication Modals
+    const loginBtn = document.getElementById('loginBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const loginModal = document.getElementById('loginModal');
+    const signUpModal = document.getElementById('signUpModal');
+    const closeLogin = document.getElementById('closeLogin');
+    const closeSignUp = document.getElementById('closeSignUp');
+
+    // Show Login Modal
+    loginBtn.addEventListener('click', () => {
+        loginModal.classList.remove('hidden');
+    });
+
+    // Show Sign Up Modal
+    signUpBtn.addEventListener('click', () => {
+        signUpModal.classList.remove('hidden');
+    });
+
+    // Close Login Modal
+    closeLogin.addEventListener('click', () => {
+        loginModal.classList.add('hidden');
+    });
+
+    // Close Sign Up Modal
+    closeSignUp.addEventListener('click', () => {
+        signUpModal.classList.add('hidden');
+    });
+
+    // Show/Hide Password Toggle
+    const showPasswordCheckbox = document.getElementById('showPassword');
+    const signUpPassword = document.getElementById('signUpPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    showPasswordCheckbox.addEventListener('change', () => {
+        const passwordType = showPasswordCheckbox.checked ? 'text' : 'password';
+        signUpPassword.type = passwordType;
+        confirmPassword.type = passwordType;
+    });
+</script>
+
+</body>
+</html>
